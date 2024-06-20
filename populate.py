@@ -2,9 +2,9 @@ from app import app, db
 from models import User, Burger
 
 def create_users():
-    user1 = User(username='john_doe', email='john@example.com')
+    user1 = User(username='john_doe')
     user1.set_password('password123')
-    user2 = User(username='jane_doe', email='jane@example.com')
+    user2 = User(username='jane_doe')
     user2.set_password('password123')
 
     db.session.add(user1)
