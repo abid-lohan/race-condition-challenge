@@ -1,0 +1,40 @@
+* {
+    margin: 0 auto;
+    padding: 0 auto;
+    font-family: sans-serif;
+}
+
+/* 
+#d15615
+#e0a387
+#ffe7d3
+#64baaa 
+*/
+
+body {
+    background-color: #d15615;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    background-color: #ffe7d3;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+}

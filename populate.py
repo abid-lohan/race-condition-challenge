@@ -10,18 +10,16 @@ def create_users():
     db.session.add(user1)
     db.session.add(user2)
     db.session.commit()
-    print("Users created successfully.")
+    print("Usuários criados com sucesso.")
 
 def create_burgers():
-    burger1 = Burger(name='Classic Burger', price=5.99)
-    burger2 = Burger(name='Cheese Burger', price=6.99)
-    burger3 = Burger(name='Bacon Burger', price=7.99)
+    burger1 = Burger(name='Hangúrguer de Siri', price=5.00)
+    burger2 = Burger(name='Hambúrguer Grisalho', price=1337.00)
 
     db.session.add(burger1)
     db.session.add(burger2)
-    db.session.add(burger3)
     db.session.commit()
-    print("Burgers created successfully.")
+    print("Hambúrgueres criados com sucesso.")
 
 if __name__ == '__main__':
     with app.app_context():

@@ -54,3 +54,15 @@ def wallet():
         flash('Amount added to wallet!', 'success')
         return redirect(url_for('wallet'))
     return render_template('wallet.html', form=form)
+
+@app.route('/buy/<int:burger_id>', methods=['POST'])
+@login_required
+def buy_burger(burger_id):
+    burger = Burger.query.get_or_404(burger_id)
+    if current_user.wallet >= burger.price:
+        current_user.wallet -= burger.price
+        db.session.commit()
+        flash(f'You have successfully bought {burger.name} for ${burger.price}!', 'success')
+    else:
+        flash('You do not have enough money in your wallet to buy this burger.', 'danger')
+    return redirect(url_for('home'))

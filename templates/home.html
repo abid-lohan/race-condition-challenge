@@ -3,7 +3,12 @@
     <h1>Welcome to the Burger Shop!</h1>
     <ul>
         {% for burger in burgers %}
-            <li>{{ burger.name }} - ${{ burger.price }}</li>
+            <li>
+                {{ burger.name }} - ${{ burger.price }}
+                <form method="POST" action="{{ url_for('buy_burger', burger_id=burger.id) }}">
+                    <button type="submit">Buy</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}
