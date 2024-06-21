@@ -61,8 +61,8 @@ def buy_burger(burger_id):
     burger = Burger.query.get_or_404(burger_id)
     if current_user.wallet >= burger.price:
         current_user.wallet -= burger.price
-        db.session.commit()
         flash(f'You have successfully bought {burger.name} for ${burger.price}!', 'success')
+        db.session.commit()
     else:
         flash('You do not have enough money in your wallet to buy this burger.', 'danger')
     return redirect(url_for('home'))
