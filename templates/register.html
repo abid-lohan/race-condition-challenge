@@ -2,7 +2,7 @@
 {% block content %}
     <form method="POST" action="" class="form">
         <p class="title">Cadastro</p>
-        <div>{{ form.hidden_tag() }}</div>
+        {{ form.hidden_tag() }}
         <label>
             <input id="username" name="username" class="input" type="text" placeholder="" required="">
             <span>{{ form.username.label }}</span>

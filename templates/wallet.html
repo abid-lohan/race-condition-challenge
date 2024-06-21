@@ -2,7 +2,7 @@
 {% block content %}
     <form method="POST" action="" class="form">
         <p class="title">Carteira</p>
-        <div>{{ form.hidden_tag() }}</div>
+        {{ form.hidden_tag() }}
         <label>
             <input id="amount" name="amount" class="input" type="text" placeholder="" required="">
             <span>{{ form.amount.label }}</span>
