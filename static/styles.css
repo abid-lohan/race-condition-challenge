@@ -66,6 +66,28 @@ nav {
     background-color: #fec195;
 }
 
+.hist-item {
+  background-color: #ececec;
+  color: #202020;
+  width: 300px;
+  padding: 10px;
+  font-size: 16pt;
+  text-align: center;
+  margin: 10px 0;
+  box-shadow: 2px 2px 2px black;
+}
+
+.cancel {
+  padding: 5px;
+  background: crimson;
+  border: 3px solid crimson;
+  color: white;
+}
+
+.cancel:hover {
+  color: crimson;
+}
+
 .money {
     color: #64baaa;
 }

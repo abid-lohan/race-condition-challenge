@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Histórico de compras</h1>
-    <ul>
+<div class="form">
+    <p class="title">Histórico de Compras</p>
+    <div>
         {% for purchase in purchases %}
-            <li>
-                {{ purchase.burger.name }} - R$ {{ purchase.burger.price }} - {{ purchase.timestamp }}
+            <div class="hist-item">
+                {{ purchase.burger.name }} - R$ {{ purchase.burger.price }}<br/>{{ purchase.timestamp }}
                 <form method="POST" action="{{ url_for('cancel_purchase', purchase_id=purchase.id) }}">
-                    <button type="submit">Cancelar compra</button>
+                    <button type="submit" class="cancel">X</button>
                 </form>
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+        </div>
+</div>
 {% endblock %}
