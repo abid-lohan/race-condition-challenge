@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Histórico de compras</h1>
+    <ul>
+        {% for purchase in purchases %}
+            <li>
+                {{ purchase.burger.name }} - R$ {{ purchase.burger.price }} - {{ purchase.timestamp }}
+                <form method="POST" action="{{ url_for('cancel_purchase', purchase_id=purchase.id) }}">
+                    <button type="submit">Cancelar compra</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

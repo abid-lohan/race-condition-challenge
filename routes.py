@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from app import app, db
-from models import User, Burger
+from models import User, Burger, Purchase
 from forms import RegistrationForm, LoginForm, WalletForm
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -61,8 +61,29 @@ def buy_burger(burger_id):
     burger = Burger.query.get_or_404(burger_id)
     if current_user.wallet >= burger.price:
         current_user.wallet -= burger.price
-        flash(f'Você comprou o {burger.name} por ${burger.price}!', 'success')
+        purchase = Purchase(user_id=current_user.id, burger_id=burger.id)
+        db.session.add(purchase)
         db.session.commit()
+        flash(f'Você comprou um {burger.name} por ${burger.price}!', 'success')
     else:
         flash('Dinheiro insuficiente.', 'danger')
     return redirect(url_for('home'))
+
+@app.route('/history')
+@login_required
+def history():
+    purchases = Purchase.query.filter_by(user_id=current_user.id).order_by(Purchase.timestamp.desc()).all()
+    return render_template('history.html', purchases=purchases)
+
+@app.route('/cancel_purchase/<int:purchase_id>', methods=['POST'])
+@login_required
+def cancel_purchase(purchase_id):
+    purchase = Purchase.query.get_or_404(purchase_id)
+    if purchase.buyer.id == current_user.id:
+        current_user.wallet += purchase.burger.price
+        db.session.delete(purchase)
+        db.session.commit()
+        flash(f'Você cancelou a compra de um {purchase.burger.name}.', 'success')
+    else:
+        flash('Você não está autorizado a cancelar essa compra.', 'danger')
+    return redirect(url_for('history'))
