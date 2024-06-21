@@ -4,21 +4,21 @@ from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from models import User
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+    username = StringField('Usuário', validators=[DataRequired()])
+    password = PasswordField('Senha', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirmar senha', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Cadastrar')
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('Username is already taken.')
+            raise ValidationError('Usuário já existe, escolha outro.')
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Usuário', validators=[DataRequired()])
+    password = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Login')
 
 class WalletForm(FlaskForm):
-    amount = FloatField('Amount', validators=[DataRequired()])
-    submit = SubmitField('Add to Wallet')
+    amount = FloatField('Quantidade', validators=[DataRequired()])
+    submit = SubmitField('Depositar')

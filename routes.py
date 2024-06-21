@@ -20,7 +20,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Account created!', 'success')
+        flash('Conta criada!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
@@ -36,7 +36,7 @@ def login():
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
+            flash('Login falhou. Por favor, verifique seu usuário e senha.', 'danger')
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -51,7 +51,7 @@ def wallet():
     if form.validate_on_submit():
         current_user.wallet += form.amount.data
         db.session.commit()
-        flash('Amount added to wallet!', 'success')
+        flash('Depósito realizado com sucesso!', 'success')
         return redirect(url_for('wallet'))
     return render_template('wallet.html', form=form)
 
@@ -61,8 +61,8 @@ def buy_burger(burger_id):
     burger = Burger.query.get_or_404(burger_id)
     if current_user.wallet >= burger.price:
         current_user.wallet -= burger.price
-        flash(f'You have successfully bought {burger.name} for ${burger.price}!', 'success')
+        flash(f'Você comprou o {burger.name} por ${burger.price}!', 'success')
         db.session.commit()
     else:
-        flash('You do not have enough money in your wallet to buy this burger.', 'danger')
+        flash('Dinheiro insuficiente.', 'danger')
     return redirect(url_for('home'))

@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Burger Shop</title>
+    <title>Grisalhos Burger</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <div class="menu-btn"><a href="{{ url_for('home') }}">Home</a></div>
             {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('wallet') }}">Wallet: ${{ current_user.wallet }}</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <div class="menu-btn"><a href="{{ url_for('wallet') }}">Carteira<br /><span class="money">R$ {{ current_user.wallet }}</span></a></div>
+                <div class="menu-btn"><a href="{{ url_for('logout') }}">Logout</a></div>
             {% else %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('register') }}">Register</a></li>
+                <div class="menu-btn"><a href="{{ url_for('login') }}">Login</a></div>
+                <div class="menu-btn"><a href="{{ url_for('register') }}">Registrar</a></div>
             {% endif %}
-        </ul>
     </nav>
     <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}

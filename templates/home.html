@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Welcome to the Burger Shop!</h1>
-    <ul>
+    <h1>Cardápio</h1>
+    <main>
         {% for burger in burgers %}
-            <li>
-                {{ burger.name }} - ${{ burger.price }}
+            <div class="item-container">
+                <div class="burger-name">
+                    {{ burger.name }} - R$ {{ burger.price }}
+                </div>
                 <img src={{burger.image}}>
                 <form method="POST" action="{{ url_for('buy_burger', burger_id=burger.id) }}">
-                    <button type="submit">Buy</button>
+                    <button type="submit">Comprar</button>
                 </form>
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </main>
 {% endblock %}
