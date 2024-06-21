@@ -9,11 +9,11 @@
     <nav>
             <div class="menu-btn"><a href="{{ url_for('home') }}">Home</a></div>
             {% if current_user.is_authenticated %}
-                <div class="menu-btn"><a href="{{ url_for('wallet') }}">Carteira<br /><span class="money">R$ {{ current_user.wallet }}</span></a></div>
+                <div class="menu-btn"><a href="{{ url_for('wallet') }}">Carteira<br /><span class="money">R${{ current_user.wallet }}</span></a></div>
                 <div class="menu-btn"><a href="{{ url_for('logout') }}">Logout</a></div>
             {% else %}
                 <div class="menu-btn"><a href="{{ url_for('login') }}">Login</a></div>
-                <div class="menu-btn"><a href="{{ url_for('register') }}">Registrar</a></div>
+                <div class="menu-btn"><a href="{{ url_for('register') }}">Cadastro</a></div>
             {% endif %}
     </nav>
     <div class="container">
