@@ -3,6 +3,8 @@ from app import app, db
 from models import User, Burger, Purchase
 from forms import RegistrationForm, LoginForm, WalletForm
 from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm.exc import StaleDataError
 
 @app.route('/')
 @app.route('/home')
@@ -58,15 +60,29 @@ def wallet():
 @app.route('/buy/<int:burger_id>', methods=['POST'])
 @login_required
 def buy_burger(burger_id):
-    burger = Burger.query.get_or_404(burger_id)
-    if current_user.wallet >= burger.price:
-        current_user.wallet -= burger.price
-        purchase = Purchase(user_id=current_user.id, burger_id=burger.id)
-        db.session.add(purchase)
-        db.session.commit()
-        flash(f'Você comprou um {burger.name} por ${burger.price}!', 'success')
-    else:
-        flash('Dinheiro insuficiente.', 'danger')
+    try:
+        with db.session.begin_nested():
+            user = db.session.query(User).filter_by(id=current_user.id).with_for_update().one()
+            burger = db.session.query(Burger).filter_by(id=burger_id).one()
+
+            if user.wallet >= burger.price:
+                user.wallet -= burger.price
+                purchase = Purchase(user_id=user.id, burger_id=burger.id)
+                db.session.add(purchase)
+                try:
+                    db.session.commit()
+                    flash(f'Você comprou um {burger.name} por ${burger.price}!', 'success')
+                except StaleDataError:
+                    db.session.rollback()
+                    flash('Erro ao processar sua compra. Tente novamente.', 'danger')
+            else:
+                flash('Dinheiro insuficiente.', 'danger')
+                db.session.rollback()
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        flash('Ocorreu um erro ao processar sua compra. Por favor, tente novamente.', 'danger')
+
     return redirect(url_for('home'))
 
 @app.route('/history')
